@@ -65,4 +65,4 @@ Contributions to the project are welcome! To contribute:
 4. Submit a pull request
 
 ### Estimated time worked on the project (hrs):
-~  hrs
+~ 3 hrs
