@@ -22,7 +22,7 @@ The framework verifies UI elements, texts & network calls to validate functional
 1. **Prerequisites**: Ensure you have [Java JDK 8+](https://www.oracle.com/il-en/java/technologies/downloads/#jdk21-windows), [Apache Maven 3.6+](https://maven.apache.org/download.cgi) & **Optional** [Allure Report](https://github.com/allure-framework/allure2/releases) properly installed on your machine. Ensure Environment variables are set up for the following:
     * JAVA_HOME - `path/to/java/jdk`
     * Path - `path/to/apache-maven/bin` & **Optional** `path/to/allure/bin`
-2. **Clone the repository**: Clone this repository to your local machine using `git clone https://github.com/Zapkid/Vicarius-Selenium-Java-Demo.git`.
+2. **Clone the repository**: Clone this repository to your local machine using `git clone https://github.com/Zapkid/Demo.git`.
 3. **Install dependencies & Run tests**: Run `mvn clean install -P Web` to install all necessary dependencies to your local machine & run the Web tests suite.
 
 ## Running Tests
