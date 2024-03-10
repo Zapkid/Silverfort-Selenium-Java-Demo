@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Web Suite" parallel="none">
+
+    <listeners>
+        <listener class-name="utilities.Listeners" />
+    </listeners>
+
+    <test name="Wiki MFA Tests">
+        <parameter name="BrowserName" value="chrome" />
+        <parameter name="URL" value="https://en.wikipedia.org/wiki/Multi-factor_authentication" />
+        <parameter name="timeout" value="5" />
+        <classes>
+            <class name="WikiMFATests"></class>
+        </classes>
+    </test>
+
+</suite>
