@@ -2,12 +2,12 @@
 <testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2024-03-10T14:48:33 IST" name="Web Suite" finished-at="2024-03-10T14:48:45 IST" duration-ms="11971">
+  <suite started-at="2024-03-10T16:50:53 IST" name="Web Suite" finished-at="2024-03-10T16:50:59 IST" duration-ms="5592">
     <groups>
     </groups>
-    <test started-at="2024-03-10T14:48:33 IST" name="Wiki MFA Tests" finished-at="2024-03-10T14:48:45 IST" duration-ms="11971">
+    <test started-at="2024-03-10T16:50:53 IST" name="Wiki MFA Tests" finished-at="2024-03-10T16:50:59 IST" duration-ms="5592">
       <class name="WikiMFATests">
-        <test-method is-config="true" signature="startSession(java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:WikiMFATests@26f7cdf8]" started-at="2024-03-10T14:48:34 IST" name="startSession" finished-at="2024-03-10T14:48:42 IST" duration-ms="7983" status="PASS">
+        <test-method is-config="true" signature="startSession(java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:WikiMFATests@58e92c23]" started-at="2024-03-10T16:50:53 IST" name="startSession" finished-at="2024-03-10T16:50:57 IST" duration-ms="3210" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -28,7 +28,7 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- startSession -->
-        <test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:WikiMFATests@26f7cdf8]" started-at="2024-03-10T14:48:42 IST" name="beforeMethod" finished-at="2024-03-10T14:48:43 IST" duration-ms="1571" status="PASS">
+        <test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:WikiMFATests@58e92c23]" started-at="2024-03-10T16:50:57 IST" name="beforeMethod" finished-at="2024-03-10T16:50:58 IST" duration-ms="1217" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -39,11 +39,11 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeMethod -->
-        <test-method signature="AnalyzeTextTest()[pri:1, instance:WikiMFATests@26f7cdf8]" started-at="2024-03-10T14:48:44 IST" name="AnalyzeTextTest" description="Analyze text on Wikipedia MFA page Test" finished-at="2024-03-10T14:48:44 IST" duration-ms="692" status="PASS">
+        <test-method signature="AnalyzeTextTest()[pri:1, instance:WikiMFATests@58e92c23]" started-at="2024-03-10T16:50:58 IST" name="AnalyzeTextTest" description="Analyze text on Wikipedia MFA page Test" finished-at="2024-03-10T16:50:59 IST" duration-ms="551" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- AnalyzeTextTest -->
-        <test-method is-config="true" signature="closeSession()[pri:0, instance:WikiMFATests@26f7cdf8]" started-at="2024-03-10T14:48:44 IST" name="closeSession" finished-at="2024-03-10T14:48:45 IST" duration-ms="989" status="PASS">
+        <test-method is-config="true" signature="closeSession()[pri:0, instance:WikiMFATests@58e92c23]" started-at="2024-03-10T16:50:59 IST" name="closeSession" finished-at="2024-03-10T16:50:59 IST" duration-ms="230" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- closeSession -->
