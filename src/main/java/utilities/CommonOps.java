@@ -15,40 +15,39 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
-import extensions.Verifications;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import java.nio.file.Files;
 
 public class CommonOps extends Base {
 
     public static final Logger LOG = LoggerFactory.getLogger(CommonOps.class);
 
-    // // Initiate Parameters from Suite XML
-    // @BeforeClass
-    // @Parameters({ "BrowserName", "URL", "timeout" })
-    // public void startSession(String BrowserName, String URL, String timeout) {
-    //     browserName = BrowserName;
-    //     url = URL;
-    //     try {
-    //         timeoutDuration = Duration.ofSeconds(Integer.parseInt(timeout));
-    //     } catch (NumberFormatException e) {
-    //         e.printStackTrace();
-    //     }
-
-    //     initWeb();
-    // }
-
+    // Initiate Parameters from Suite XML
     @BeforeClass
-    // @Parameters({ "BrowserName", "URL", "timeout" })
-    public void startSession() {
-        browserName = "chrome";
+    @Parameters({ "BrowserName", "URL", "timeout" })
+    public void startSession(String BrowserName, String URL, String timeout) {
+        browserName = BrowserName;
         url = URL;
         try {
-            timeoutDuration = Duration.ofSeconds(10);
+            timeoutDuration = Duration.ofSeconds(Integer.parseInt(timeout));
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
@@ -59,7 +58,7 @@ public class CommonOps extends Base {
     // Close session
     @AfterClass
     public void closeSession() {
-        // driver.quit();
+        driver.quit();
     }
 
     // Start video recording before starting a test
@@ -132,28 +131,6 @@ public class CommonOps extends Base {
         wait = new WebDriverWait(driver, timeoutDuration);
     }
 
-    public static void sleep(long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-    }
-
-    @Step("Switch to iframe")
-    public static void switchToIFrame(String iframeCssSelector) {
-        WebElement iframe = driver.findElement(By.cssSelector(iframeCssSelector));
-        Verifications.verifyElementIsVisible(iframe);
-        LOG.info("Switching to iframe: " + iframeCssSelector);
-        driver.switchTo().frame(iframe);
-    }
-
-    @Step("Switch to default iframe")
-    public static void switchToDefaultIFrame() {
-        driver.switchTo().defaultContent();
-        LOG.info("Switching back to default iframe.");
-    }
-
     @Step("Get element parent")
     public static WebElement getElementParent(WebElement element) {
         return element.findElement(By.xpath("parent::*"));
@@ -163,4 +140,101 @@ public class CommonOps extends Base {
     public static WebElement getElementFollowingSibling(WebElement element) {
         return element.findElement(By.xpath("following-sibling::*"));
     }
+
+    public static String cleanText(String inputText) {
+        String regex = "\\b[^\\d\\p{P}()\\.]+\\b";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(inputText);
+
+        StringBuilder cleanedText = new StringBuilder();
+        while (matcher.find()) {
+            cleanedText.append(matcher.group()).append(" ");
+        }
+
+        return cleanedText.toString().trim();
+    }
+
+    public static Map<String, Integer> countAndPrintWordOccurrences(String inputString) {
+        Map<String, Integer> wordCountMap = new HashMap<>();
+        String[] words = inputString.split("\\s+");
+
+        for (String word : words) {
+            // Convert the word to lowercase to make the counting case-insensitive
+            String lowercaseWord = word.toLowerCase();
+
+            // Update the word count in the HashMap
+            wordCountMap.put(lowercaseWord, wordCountMap.getOrDefault(lowercaseWord, 0) + 1);
+        }
+
+        // Print the word occurrences
+        for (Map.Entry<String, Integer> entry : wordCountMap.entrySet()) {
+            System.out.println("Word: " + entry.getKey() + ", Occurrences: " + entry.getValue());
+        }
+
+        return wordCountMap;
+    }
+
+    public static List<String> readDictionaryWords(String filePath) throws IOException {
+        List<String> words = new ArrayList<>();
+        Path path = Paths.get(filePath);
+
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                words.add(line.trim());
+            }
+        }
+
+        return words;
+    }
+
+    public static void loadDictionary(String dictionaryFilePath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(dictionaryFilePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                dictionary.add(line.toLowerCase()); // Convert to lowercase for case-insensitive matching
+            }
+        } catch (IOException e) {
+            System.err.println("Error loading dictionary: " + e.getMessage());
+        }
+    }
+
+    public static boolean isWordCorrectlySpelled(String word) {
+        return dictionary.contains(word.toLowerCase()); // Convert to lowercase for case-insensitive matching
+    }
+
+    public void lookForTypos(Set<String> words) {
+        loadDictionary("eng_com.dic");
+
+        for (String word : words) {
+            if (!isWordCorrectlySpelled(word)) {
+                System.out.println("Possible typo: " + word);
+            }
+        }
+    }
+
+    public String cleanTexts(List<String> texts) {
+        String cleanedText = "";
+
+        for (String text : texts) {
+            String cleanText = cleanText(text);
+            cleanedText += cleanText + " ";
+        }
+
+        return cleanedText;
+    }
+
+    public List<String> getTextsFromWebPage() {
+        List<String> texts = new ArrayList<String>();
+
+        for (int i = factorsParagraphsStartingIndex; i < factorsParagraphsStartingIndex
+                + factorsParagraphsCount; i++) {
+            texts.add(wikiMFAPage.getWikiPageParagraphs().get(i).getText());
+        }
+
+        texts.add(wikiMFAPage.getWikiPageUnorderedLists().get(factorsUnorderedListIndex).getText());
+
+        return texts;
+    }
+
 }

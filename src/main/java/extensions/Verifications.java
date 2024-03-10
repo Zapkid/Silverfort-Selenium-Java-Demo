@@ -1,16 +1,10 @@
 package extensions;
 
-import io.netty.handler.codec.http.HttpResponseStatus;
 import io.qameta.allure.Step;
 import utilities.CommonOps;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.logging.LogEntries;
-import org.openqa.selenium.logging.LogEntry;
-import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import static org.testng.Assert.*;
 
@@ -61,66 +55,5 @@ public class Verifications extends CommonOps {
         Verifications.verifyString(element
                 .getCssValue(cssProperty), expectedCssValue);
     }
-
-    @Step("Verify Response status code")
-    public static void verifyApiResponse(String Url, HttpResponseStatus statusCode) {
-        // TODO - FIX: Only works for chrome driver
-        LogEntries les = driver.manage().logs().get(LogType.PERFORMANCE);
-        for (LogEntry le : les) {
-            if (le.getMessage().contains(Url)
-                    && le.getMessage().contains("status")) {
-                try {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    JsonNode jsonNode = objectMapper.readTree(le.getMessage());
-
-                    JsonNode response = jsonNode.path("message").path("params").path("response");
-                    String status = response.path("status").asText();
-
-                    LOG.info("API response status: " + status + ". URL: " + Url);
-
-                    try {
-                        Verifications.verifyString(status, String.valueOf(statusCode.code()));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    @Step("Verify Response status code & error message")
-    public static void verifyApiResponse(String Url, HttpResponseStatus statusCode, String errorMessage) {
-        LogEntries les = driver.manage().logs().get(LogType.PERFORMANCE);
-        for (LogEntry le : les) {
-            if (le.getMessage().contains(Url)
-                    && le.getMessage().contains("status")) {
-                try {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    JsonNode jsonNode = objectMapper.readTree(le.getMessage());
-
-                    JsonNode response = jsonNode.path("message").path("params").path("response");
-                    String status = response.path("status").asText();
-                    if (status == "400") {
-                        String message = response.path("message").asText();
-                        Verifications.verifyString(message, errorMessage);
-                    }
-                    LOG.info("API response status: " + status + ". URL: " + Url);
-
-                    try {
-                        Verifications.verifyString(status, String.valueOf(statusCode.code()));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
 
 }

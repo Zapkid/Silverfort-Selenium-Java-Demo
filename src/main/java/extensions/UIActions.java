@@ -14,13 +14,6 @@ public class UIActions extends CommonOps {
         elem.click();
     }
 
-    @Step("Wait for element click-ability, then Click on Element & sleep")
-    public static void click(WebElement elem, long sleepTimeMillis) {
-        wait.until(ExpectedConditions.elementToBeClickable(elem));
-        elem.click();
-        sleep(sleepTimeMillis);
-    }
-
     @Step("No wait Click on element")
     public static void noWaitClick(WebElement elem) {
         elem.click();
@@ -52,38 +45,14 @@ public class UIActions extends CommonOps {
         elem.sendKeys(text);
     }
 
-    @Step("Wait for element visibility & type text")
-    public static void waitAndType(WebElement elem, String text) {
-        wait.until((ExpectedConditions.visibilityOf(elem)));
-        elem.sendKeys(text);
-        try {
-            Thread.sleep(SLEEP_TIMEOUT);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Step("Mouse Hover Element")
     public static void hover(WebElement element) {
         action.moveToElement(element).build().perform();
     }
 
-    @Step("Mouse Hover Element & sleep")
-    public static void hover(WebElement element, long sleepTimeMillis) {
-        action.moveToElement(element).build().perform();
-        sleep(sleepTimeMillis);
-    }
-
     @Step("Mouse Hover Element & Click")
     public static void hoverAndClick(WebElement element) {
         action.moveToElement(element).click().build().perform();
-    }
-
-    @Step("Scroll Element Into view")
-    public static void scrollIntoView(WebElement element, long sleepTimeMillis) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(true);", element);
-        sleep(sleepTimeMillis);
     }
 
 }
